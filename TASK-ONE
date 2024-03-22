@@ -1,0 +1,125 @@
+# TO-DO LIST WEB APPLICATION
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: calc(100% - 130px);
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .completed {
+            color: #999;
+        }
+
+        .remove-btn, .edit-btn {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover, .edit-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter task...">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskList = document.getElementById("taskList");
+            var taskText = taskInput.value;
+
+            if (taskText.trim() !== "") {
+                var listItem = document.createElement("li");
+                var taskSpan = document.createElement("span");
+                var editButton = document.createElement("button");
+                var removeButton = document.createElement("button");
+                taskSpan.textContent = taskText;
+                editButton.textContent = "Edit";
+                editButton.className = "edit-btn";
+                removeButton.textContent = "Remove";
+                removeButton.className = "remove-btn";
+
+                listItem.appendChild(taskSpan);
+                listItem.appendChild(editButton);
+                listItem.appendChild(removeButton);
+                taskList.appendChild(listItem);
+
+                removeButton.onclick = function() {
+                    listItem.remove();
+                };
+
+                editButton.onclick = function() {
+                    var newText = prompt("Edit Task:", taskText);
+                    if (newText !== null && newText.trim() !== "") {
+                        taskSpan.textContent = newText;
+                        listItem.classList.remove("completed"); // Remove completed class
+                    }
+                };
+
+                listItem.onclick = function() {
+                    this.classList.toggle("completed");
+                };
+
+                taskInput.value = "";
+            } else {
+                alert("Please enter a task.");
+            }
+        }
+    </script>
+</body>
+</html>
